@@ -9,7 +9,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        # Ubuntu 22.04 permits the unprivileged namespaces required by bubblewrap.
+        # Do not weaken a host security policy merely to make an installation pass.
+        os: [macos-latest, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
@@ -20,6 +22,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
+      - name: Install and prove Linux sandbox prerequisite
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes bubblewrap
+          bwrap --unshare-all --ro-bind / / -- /bin/true
       - name: Launcher refusal and state-preservation tests
         run: python -m unittest discover -s tests -v
       - name: Pinokio menu and script tests

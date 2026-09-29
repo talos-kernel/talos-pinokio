@@ -14,6 +14,10 @@ It installs the website's default release, **0.19.23-alpha**. Talos is still **a
 - Pinokio 8.2 or newer, on macOS or Linux. Windows is not supported by this launcher.
 - An internet connection for installation and any remote model provider you choose.
 - Your own model access: a configured provider, a supported authenticated CLI, or a local Ollama server.
+- On Linux: working `bubblewrap` (`bwrap`) with unprivileged user namespaces. Install it through
+  your distribution's package manager before installing Talos. The launcher probes isolation
+  first and refuses if the kernel blocks it; it never enables unconfined execution or changes
+  kernel/AppArmor settings. Linux installation CI uses Ubuntu 22.04.
 
 The launcher has no subscription or gateway surcharge. Your model provider's own charges
 and subscription terms still apply. It does not download a model or start Ollama for you.

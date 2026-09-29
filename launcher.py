@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import urllib.request
@@ -25,6 +26,22 @@ def clean_environment():
     return env
 
 
+def ensure_linux_isolation():
+    if sys.platform != "linux":
+        return
+    binary = shutil.which("bwrap")
+    message = ("Linux requires working bubblewrap and unprivileged user namespaces. "
+               "Install bubblewrap using your distribution's package manager and check its "
+               "sandbox support. This launcher will not disable isolation or change kernel settings.")
+    if not binary:
+        raise RuntimeError(message)
+    try:
+        subprocess.run([binary, "--unshare-all", "--ro-bind", "/", "/", "--", "/bin/true"],
+                       env=clean_environment(), capture_output=True, timeout=10, check=True)
+    except (OSError, subprocess.SubprocessError) as error:
+        raise RuntimeError(message) from error
+
+
 def install():
     if APP.is_symlink():
         raise RuntimeError("The app directory must not be a symlink. Nothing was changed.")
@@ -38,6 +55,7 @@ def install():
         return
     if APP.exists() or APP.is_symlink():
         raise RuntimeError("An existing or incomplete app directory was found. Nothing was overwritten.")
+    ensure_linux_isolation()
     # Exclusive lock prevents simultaneous installs; no broad deletion/reset operation.
     with (ROOT / ".installing").open("x"):
         try:

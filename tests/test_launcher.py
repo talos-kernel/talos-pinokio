@@ -16,6 +16,9 @@ class LauncherTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.app = self.root / "app"
+        isolation = patch.object(launcher, "ensure_linux_isolation")
+        isolation.start()
+        self.addCleanup(isolation.stop)
         for name, value in (("ROOT", self.root), ("APP", self.app),
                             ("MARKER", self.app / ".pinokio-installed.json")):
             context = patch.object(launcher, name, value)
@@ -151,6 +154,30 @@ class LauncherTests(unittest.TestCase):
         with patch.object(launcher.sys, "argv", ["launcher.py"]):
             with self.assertRaises(ValueError):
                 launcher.main()
+
+
+class IsolationTests(unittest.TestCase):
+    def test_mac_does_not_install_linux_tools(self):
+        with patch.object(launcher.sys, "platform", "darwin"), patch.object(launcher.subprocess, "run") as run:
+            launcher.ensure_linux_isolation()
+            run.assert_not_called()
+
+    def test_linux_without_bubblewrap_is_refused(self):
+        with patch.object(launcher.sys, "platform", "linux"), patch.object(launcher.shutil, "which", return_value=None):
+            with self.assertRaisesRegex(RuntimeError, "will not disable isolation"):
+                launcher.ensure_linux_isolation()
+
+    def test_linux_with_blocked_namespaces_is_refused(self):
+        with patch.object(launcher.sys, "platform", "linux"), patch.object(launcher.shutil, "which", return_value="/usr/bin/bwrap"), patch.object(launcher.subprocess, "run", side_effect=subprocess.CalledProcessError(1, "bwrap")):
+            with self.assertRaisesRegex(RuntimeError, "kernel settings"):
+                launcher.ensure_linux_isolation()
+
+    def test_linux_probe_is_read_only_and_bounded(self):
+        with patch.object(launcher.sys, "platform", "linux"), patch.object(launcher.shutil, "which", return_value="/usr/bin/bwrap"), patch.object(launcher.subprocess, "run") as run:
+            launcher.ensure_linux_isolation()
+            self.assertEqual(run.call_args.args[0], ["/usr/bin/bwrap", "--unshare-all", "--ro-bind", "/", "/", "--", "/bin/true"])
+            self.assertEqual(run.call_args.kwargs["timeout"], 10)
+            self.assertTrue(run.call_args.kwargs["check"])
 
 
 if __name__ == "__main__":

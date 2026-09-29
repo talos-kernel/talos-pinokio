@@ -13,3 +13,12 @@ __pycache__/
 *.env
 *.pem
 *.key
+# Pinokio generates these with machine-specific absolute paths.
+/AGENTS.md
+/CLAUDE.md
+/GEMINI.md
+/QWEN.md
+/.clinerules
+/.cursorrules
+/.geminiignore
+/.windsurfrules
