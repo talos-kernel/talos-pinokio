@@ -7,7 +7,9 @@ Talos is a self-hosted AI assistant with a deterministic permission kernel:
 ask before protected actions, and record what actually ran.
 
 This is a separate launcher, not a fork or a replacement for an existing Talos installation.
-It installs the website's default release, **0.19.23-alpha**. Talos is still **alpha**.
+It installs the pinned **0.20.0-alpha.rc.5** candidate, including reliable live identity
+and skill refresh on Linux. This is an opt-in release, not the website's default.
+Talos is still **alpha**.
 
 ## Requirements
 
@@ -66,7 +68,8 @@ Requests outside the granted scope still need a decision. See the
 - The upstream installer is pinned to a source commit and SHA-256 in `release.json`.
   It verifies the downloaded Talos archive with SHA-256 and Ed25519 before extracting it.
 - Runtime and test dependencies are installed from the release's hashed lockfiles.
-  The upstream installer obtains its temporary signature verifier separately from PyPI.
+  The temporary signature verifier is also pinned and hash-locked, with binary wheels
+  required before any archive is extracted.
   Installation must pass
   the upstream unit and adversarial tests before this launcher's installed marker is written.
 - It does not copy model keys, routing, Telegram credentials, or permissions from another
