@@ -1,0 +1,34 @@
+name: Launcher checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  checks:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Launcher refusal and state-preservation tests
+        run: python -m unittest discover -s tests -v
+      - name: Pinokio menu and script tests
+        run: node --test tests/menu.test.cjs
+      - name: Fresh signed install with upstream test suites
+        run: python launcher.py install
+      - name: Repeat install preserves configuration and state
+        run: |
+          python -c 'import hashlib,pathlib; print(hashlib.sha256(pathlib.Path("app/talos.env").read_bytes()).hexdigest())' > before.txt
+          python launcher.py install
+          python -c 'import hashlib,pathlib; print(hashlib.sha256(pathlib.Path("app/talos.env").read_bytes()).hexdigest())' > after.txt
+          diff before.txt after.txt

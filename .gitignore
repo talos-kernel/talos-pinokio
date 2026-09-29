@@ -1,0 +1,15 @@
+/app/
+/.bootstrap/
+/bin/
+/.downloads/
+/ENVIRONMENT
+/logs/
+/cache/
+/.installing
+__pycache__/
+*.pyc
+.DS_Store
+.env*
+*.env
+*.pem
+*.key

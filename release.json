@@ -1,0 +1,6 @@
+{
+  "version": "0.19.23-alpha",
+  "source_commit": "f8489333f9e4648db44762f9fd3db2acdafe53b7",
+  "installer_url": "https://raw.githubusercontent.com/talos-kernel/Talos/f8489333f9e4648db44762f9fd3db2acdafe53b7/site/install.sh",
+  "installer_sha256": "d660d6f921ef7d95b750139953c180280813cd98e7256ae1a89c542fac6b60bb"
+}
