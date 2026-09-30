@@ -2,6 +2,10 @@
 
 Run Talos in Pinokio's terminal. Bring your own model; keep control of what it can do.
 
+[Open the Pinokio listing](https://pinokio.co/apps/github-com-talos-kernel-talos-pinokio)
+· [Talos website](https://talos-agent.ch/#install)
+· [Talos source](https://github.com/talos-kernel/Talos)
+
 Talos is a self-hosted AI assistant with a deterministic permission kernel:
 **the model proposes; it never decides.** It can help with files and terminal tasks,
 ask before protected actions, and record what actually ran.
@@ -26,7 +30,8 @@ and subscription terms still apply. It does not download a model or start Ollama
 
 ## Start
 
-1. Download this repository in Pinokio.
+1. Open the [Talos listing](https://pinokio.co/apps/github-com-talos-kernel-talos-pinokio)
+   and download the launcher in Pinokio. Alternatively, download this repository in Pinokio.
 2. Choose **Install Talos**. Installation checks the release signature and dependency hashes,
    then runs Talos' unit and adversarial tests. This can take several minutes.
 3. Choose **Set up** and complete the interactive terminal wizard. For an existing CLI login,
