@@ -1,6 +1,6 @@
 {
-  "version": "0.20.0-alpha.rc.5",
-  "source_commit": "d1c94269bb5888e8f2c937b0b7f9deb896353889",
-  "installer_url": "https://raw.githubusercontent.com/talos-kernel/Talos/d1c94269bb5888e8f2c937b0b7f9deb896353889/site/install.sh",
-  "installer_sha256": "614ef491932f7deeacb2ebeac1e517ea44dce699225de81fafcd3c2ea1ccfc6e"
+  "version": "0.20.0-beta.1",
+  "source_commit": "747044d6e8a64c51a584b750ce44e77141839749",
+  "installer_url": "https://raw.githubusercontent.com/talos-kernel/Talos/747044d6e8a64c51a584b750ce44e77141839749/site/install.sh",
+  "installer_sha256": "8b73953e03a5bf196b2bbdd589329d48b93f5961de6a4584afadb14e2cdddf31"
 }
