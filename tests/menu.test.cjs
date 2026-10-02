@@ -1,6 +1,14 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const menu = require('../pinokio.js');
+const release = require('../release.json');
+
+test('metadata and installer pin identify the current beta', () => {
+  assert.match(menu.description, /Beta release\.$/);
+  assert.equal(release.version, '0.20.0-beta.2');
+  assert.equal(release.source_commit, '5bfd70f469a241a6ffdb0efbd2d7f753e65dc228');
+  assert.equal(release.installer_sha256, 'b53d1cde7781ef356307aa3155d51a2195f2b06bc0c753dd2db1daf8090c8ca1');
+});
 
 test('fresh install has only install and documentation', async () => {
   const items = await menu.menu({}, {running:()=>false,exists:()=>false});
