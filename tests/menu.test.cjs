@@ -1,6 +1,23 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const menu = require('../pinokio.js');
+const release = require('../release.json');
+
+test('release pin is exactly Talos beta.4 and public wording is beta', () => {
+  assert.deepEqual(release, {
+    version: '0.20.0-beta.4',
+    source_commit: '39b19f5c441c2035d6c6257b6bc808eab72d1fb0',
+    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/39b19f5c441c2035d6c6257b6bc808eab72d1fb0/site/install.sh',
+    installer_sha256: '1b8f2a091e33a290f50e9785f9992d5cf731dbe97858bc6b681c1956a16f161a',
+  });
+  for (const file of ['README.md', 'pinokio.js', 'pinokio.json']) {
+    const contents = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
+    assert.match(contents, /\bbeta\b/i, `${file} must describe the beta release`);
+    assert.doesNotMatch(contents, /\balpha\b/i, `${file} must not retain alpha wording`);
+  }
+});
 
 test('fresh install has only install and documentation', async () => {
   const items = await menu.menu({}, {running:()=>false,exists:()=>false});

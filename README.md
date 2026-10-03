@@ -11,9 +11,9 @@ Talos is a self-hosted AI assistant with a deterministic permission kernel:
 ask before protected actions, and record what actually ran.
 
 This is a separate launcher, not a fork or a replacement for an existing Talos installation.
-It installs the pinned **0.20.0-alpha.rc.5** candidate, including reliable live identity
+It installs the pinned **0.20.0-beta.4** candidate, including reliable live identity
 and skill refresh on Linux. This is an opt-in release, not the website's default.
-Talos is still **alpha**.
+Talos is still **beta**.
 
 ## Requirements
 
