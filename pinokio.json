@@ -1,6 +1,6 @@
 {
   "title": "Talos",
-  "description": "Self-hosted AI assistant with task-scoped approvals and a deterministic permission kernel. Bring your own model. macOS and Linux. Alpha.",
+  "description": "Self-hosted AI assistant with task-scoped approvals and a deterministic permission kernel. Bring your own model. macOS and Linux. Beta.",
   "icon": "icon.png",
   "links": [{"title":"Talos","links":[
     {"title":"Website","value":"https://talos-agent.ch"},

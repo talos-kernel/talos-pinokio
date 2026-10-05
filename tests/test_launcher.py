@@ -76,9 +76,15 @@ class LauncherTests(unittest.TestCase):
 
     def test_different_version_cannot_auto_upgrade(self):
         self.installed()
-        launcher.MARKER.write_text('{"version":"another-version"}')
-        with self.assertRaisesRegex(RuntimeError, "Automatic core upgrades"):
-            launcher.install()
+        marker = '{"version":"another-version"}'
+        launcher.MARKER.write_text(marker)
+        with patch.object(launcher.urllib.request, "urlopen") as request, \
+             patch.object(launcher.subprocess, "run") as run:
+            with self.assertRaisesRegex(RuntimeError, "Automatic core upgrades"):
+                launcher.install()
+        self.assertEqual(launcher.MARKER.read_text(), marker)
+        request.assert_not_called()
+        run.assert_not_called()
 
     def test_missing_python_fails_closed(self):
         self.installed()

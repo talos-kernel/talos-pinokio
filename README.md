@@ -11,10 +11,9 @@ Talos is a self-hosted AI assistant with a deterministic permission kernel:
 ask before protected actions, and record what actually ran.
 
 This is a separate launcher, not a fork or a replacement for an existing Talos installation.
-It installs the pinned **0.20.0-beta.2** release, including urllib3 2.8.0 and
-pypdf 6.19.0 security fixes, channel recovery health, and the frozen operator contract. Beta does not
-mean error-free operation. Updating this launcher does not automatically upgrade
-an existing Talos installation or change its model access and permissions.
+It installs the pinned **0.20.0-beta.4** release, the same release currently offered by
+the Talos website. Installing through Pinokio remains opt-in, and updating this launcher
+does not silently replace an existing Talos installation. Talos is still **beta**.
 
 ## Requirements
 

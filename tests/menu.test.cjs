@@ -1,13 +1,22 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const menu = require('../pinokio.js');
 const release = require('../release.json');
 
-test('metadata and installer pin identify the current beta', () => {
-  assert.match(menu.description, /Beta release\.$/);
-  assert.equal(release.version, '0.20.0-beta.2');
-  assert.equal(release.source_commit, '5bfd70f469a241a6ffdb0efbd2d7f753e65dc228');
-  assert.equal(release.installer_sha256, 'b53d1cde7781ef356307aa3155d51a2195f2b06bc0c753dd2db1daf8090c8ca1');
+test('release pin is exactly Talos beta.4 and public wording is beta', () => {
+  assert.deepEqual(release, {
+    version: '0.20.0-beta.4',
+    source_commit: 'ae1e12a36e4c8be7575cf2a72b3bd6fcda18e112',
+    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/ae1e12a36e4c8be7575cf2a72b3bd6fcda18e112/site/install.sh',
+    installer_sha256: 'ec27ebc454c3abf709a6c7a988c2fdd8e3ced18d998cbb05cee646ca30a4dcfe',
+  });
+  for (const file of ['README.md', 'pinokio.js', 'pinokio.json']) {
+    const contents = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
+    assert.match(contents, /\bbeta\b/i, `${file} must describe the beta release`);
+    assert.doesNotMatch(contents, /\balpha\b/i, `${file} must not retain alpha wording`);
+  }
 });
 
 test('fresh install has only install and documentation', async () => {
