@@ -8,9 +8,9 @@ const release = require('../release.json');
 test('release pin is exactly Talos beta.4 and public wording is beta', () => {
   assert.deepEqual(release, {
     version: '0.20.0-beta.4',
-    source_commit: '39b19f5c441c2035d6c6257b6bc808eab72d1fb0',
-    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/39b19f5c441c2035d6c6257b6bc808eab72d1fb0/site/install.sh',
-    installer_sha256: '1b8f2a091e33a290f50e9785f9992d5cf731dbe97858bc6b681c1956a16f161a',
+    source_commit: 'ae1e12a36e4c8be7575cf2a72b3bd6fcda18e112',
+    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/ae1e12a36e4c8be7575cf2a72b3bd6fcda18e112/site/install.sh',
+    installer_sha256: 'ec27ebc454c3abf709a6c7a988c2fdd8e3ced18d998cbb05cee646ca30a4dcfe',
   });
   for (const file of ['README.md', 'pinokio.js', 'pinokio.json']) {
     const contents = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
