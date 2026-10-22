@@ -11,13 +11,14 @@ Talos is a self-hosted AI assistant with a deterministic permission kernel:
 ask before protected actions, and record what actually ran.
 
 This is a separate launcher, not a fork or a replacement for an existing Talos installation.
-It installs the pinned **0.20.0-beta.4** release, the same release currently offered by
+It installs the pinned **0.20.0-beta.5** release, the same release currently offered by
 the Talos website. Installing through Pinokio remains opt-in, and updating this launcher
 does not silently replace an existing Talos installation. Talos is still **beta**.
 
 ## Requirements
 
 - Pinokio 8.2 or newer, on macOS or Linux. Windows is not supported by this launcher.
+- On macOS: Apple Silicon and macOS 14 or newer, matching the signed release's native dependencies.
 - An internet connection for installation and any remote model provider you choose.
 - Your own model access: a configured provider, a supported authenticated CLI, or a local Ollama server.
 - On Linux: working `bubblewrap` (`bwrap`) with unprivileged user namespaces. Install it through
@@ -106,6 +107,10 @@ chain proves internal log consistency, not that a model's answer is true or an a
 MIT. No endorsement or verified-listing status from Pinokio is implied.
 
 ## Launcher checks
+
+For manual checks outside Pinokio, use Node.js 22 or newer on your `PATH`, as in CI.
+The signed release also checks its browser JavaScript; older Node.js versions can
+reject modern module syntax during installation.
 
 ```sh
 python3 -m unittest discover -s tests -v

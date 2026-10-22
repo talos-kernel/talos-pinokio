@@ -5,18 +5,22 @@ const path = require('node:path');
 const menu = require('../pinokio.js');
 const release = require('../release.json');
 
-test('release pin is exactly Talos beta.4 and public wording is beta', () => {
+test('release pin is exactly Talos beta.5 and public wording is beta', () => {
   assert.deepEqual(release, {
-    version: '0.20.0-beta.4',
-    source_commit: 'ae1e12a36e4c8be7575cf2a72b3bd6fcda18e112',
-    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/ae1e12a36e4c8be7575cf2a72b3bd6fcda18e112/site/install.sh',
-    installer_sha256: 'ec27ebc454c3abf709a6c7a988c2fdd8e3ced18d998cbb05cee646ca30a4dcfe',
+    version: '0.20.0-beta.5',
+    source_commit: 'b05e8ecc4c0669e870eb4b4371cf6f53d59bd2d7',
+    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/b05e8ecc4c0669e870eb4b4371cf6f53d59bd2d7/site/install.sh',
+    installer_sha256: 'f1e676f8aff53ddb7e5e1a698a53c085cc40bbbc1d7c4df9271e1f483e20e752',
   });
   for (const file of ['README.md', 'pinokio.js', 'pinokio.json']) {
     const contents = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
     assert.match(contents, /\bbeta\b/i, `${file} must describe the beta release`);
     assert.doesNotMatch(contents, /\balpha\b/i, `${file} must not retain alpha wording`);
   }
+  const readme = fs.readFileSync(path.join(__dirname, '..', 'README.md'), 'utf8');
+  assert.ok(readme.includes(release.version), 'README must name the pinned release');
+  assert.doesNotMatch(readme, /0\.20\.0-beta\.4/, 'README must not advertise the old pin');
+  assert.match(readme, /Apple Silicon/, 'macOS architecture requirement must be explicit');
 });
 
 test('fresh install has only install and documentation', async () => {
