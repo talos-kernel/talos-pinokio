@@ -5,12 +5,12 @@ const path = require('node:path');
 const menu = require('../pinokio.js');
 const release = require('../release.json');
 
-test('release pin is exactly Talos beta.5 and public wording is beta', () => {
+test('release pin is exactly Talos beta.6 and public wording is beta', () => {
   assert.deepEqual(release, {
-    version: '0.20.0-beta.5',
-    source_commit: 'b05e8ecc4c0669e870eb4b4371cf6f53d59bd2d7',
-    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/b05e8ecc4c0669e870eb4b4371cf6f53d59bd2d7/site/install.sh',
-    installer_sha256: 'f1e676f8aff53ddb7e5e1a698a53c085cc40bbbc1d7c4df9271e1f483e20e752',
+    version: '0.20.0-beta.6',
+    source_commit: 'effdd25e93e133406c895e3b12dad7e974396918',
+    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/effdd25e93e133406c895e3b12dad7e974396918/site/install.sh',
+    installer_sha256: 'c44ab515a91775bdcdf42014251846cc3e9497ccc70f6f31b64aa81464a34068',
   });
   for (const file of ['README.md', 'pinokio.js', 'pinokio.json']) {
     const contents = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
