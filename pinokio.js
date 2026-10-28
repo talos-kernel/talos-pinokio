@@ -2,7 +2,7 @@ const release = require('./release.json');
 module.exports = {
   version: '8.2',
   title: 'Talos',
-  description: 'Self-hosted AI assistant. Use your own models, approve one action or a whole task, and inspect what ran. Beta release.',
+  description: 'Self-hosted AI assistant. Use your own models, approve one action or a whole task, and inspect what ran. Release candidate.',
   icon: 'icon.png',
   menu: async (kernel, info) => {
     if (!['darwin','linux'].includes(process.platform)) {
