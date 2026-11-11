@@ -5,16 +5,17 @@ const path = require('node:path');
 const menu = require('../pinokio.js');
 const release = require('../release.json');
 
-test('release pin is exactly Talos rc.3 and public wording identifies a prerelease', () => {
+test('release pin is exactly Talos 0.20.0 and public wording identifies stable', () => {
   assert.deepEqual(release, {
-    version: '0.20.0-rc.3',
-    source_commit: '75a8274e3e6c8db96916aa6e6775d67e3cc5b3f4',
-    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/75a8274e3e6c8db96916aa6e6775d67e3cc5b3f4/site/install.sh',
-    installer_sha256: '55c7c0e7ecf7b2b4561ac86e6e9461e39a4e135b912482ddfa6348166a6cd7e2',
+    version: '0.20.0',
+    source_commit: '3f9c8ca3a48fe411a77813e2fa794ea7217e13e9',
+    installer_url: 'https://raw.githubusercontent.com/talos-kernel/Talos/3f9c8ca3a48fe411a77813e2fa794ea7217e13e9/site/install.sh',
+    installer_sha256: '8bbd53c7c2e21f1bcac1a2a381639cca657e698e6536f5416617b15cdd95373d',
   });
   for (const file of ['README.md', 'pinokio.js', 'pinokio.json']) {
     const contents = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
-    assert.match(contents, /release candidate/i, `${file} must describe the release candidate`);
+    assert.match(contents, /stable/i, `${file} must describe the stable release`);
+    assert.doesNotMatch(contents, /release candidate|prerelease/i, `${file} must not retain candidate wording`);
     assert.doesNotMatch(contents, /\balpha\b/i, `${file} must not retain alpha wording`);
   }
   const readme = fs.readFileSync(path.join(__dirname, '..', 'README.md'), 'utf8');
